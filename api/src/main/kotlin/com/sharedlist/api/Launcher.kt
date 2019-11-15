@@ -7,10 +7,10 @@ import java.util.UUID
 data class Item(val name: String)
 
 fun main() {
-    val app = Javalin.create().apply {
+    Javalin.create{ config ->
         config.enableCorsForAllOrigins()
     }
-    app.routes {
+    .routes {
         ApiBuilder.get("/api/items") { context ->
             context.json(listOf(Item("Сакхар"), Item("Сало")))
         }
@@ -19,7 +19,7 @@ fun main() {
             context.result("Go duck yourself")
         }
     }
-    app.start(8080)
+    .start(8080)
 }
 
 data class ItemList private constructor(val id: String, val items: MutableList<Item>){
