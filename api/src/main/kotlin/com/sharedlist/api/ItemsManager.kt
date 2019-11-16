@@ -7,6 +7,7 @@ interface ItemsManager {
     fun remove(listId: String)
     fun addItem(listId: String, item: Item)
     fun removeItem(listId: String, itemId: String)
+    fun renameItem(listId: String, itemId: String, name: String)
 }
 
 data class Item(val name: String) {

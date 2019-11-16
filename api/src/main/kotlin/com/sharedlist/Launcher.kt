@@ -65,6 +65,14 @@ fun main() {
                 itemsManager.removeItem(listId, itemId)
                 context.status(204)
             }
+
+            patch(":listId/items/:itemId") { context ->
+                val listId = context.pathParam("listId")
+                val itemId = context.pathParam("itemId")
+                val value = context.bodyAsClass(Name::class.java)
+                itemsManager.renameItem(listId, itemId, value.name)
+                context.status(200)
+            }
         }
     }
     .start(8080)

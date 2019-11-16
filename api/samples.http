@@ -1,3 +1,6 @@
+### Replace `test` with unique id
+# Sample http://localhost:8080/api/lists/8559270e-28d8-4786-a88e-e3710b141314
+
 ### Find list by id
 GET http://localhost:8080/api/lists/test
 Accept: application/json
@@ -11,7 +14,7 @@ Content-Type: application/json
 }
 
 ### Rename list
-PATCH http://localhost:8080/api/lists/dbd364f5-0883-4139-bc5c-779675b17ba6
+PATCH http://localhost:8080/api/lists/test
 Content-Type: application/json
 
 {
@@ -19,11 +22,11 @@ Content-Type: application/json
 }
 
 ### Delete list
-DELETE http://localhost:8080/api/lists/8559270e-28d8-4786-a88e-e3710b141314
+DELETE http://localhost:8080/api/lists/test
 Content-Type: application/json
 
 ### Add new item to list
-PUT http://localhost:8080/api/lists/f8297eac-c8de-4bcd-b9ef-5d16cc736f23/items
+PUT http://localhost:8080/api/lists/test/items
 Content-Type: application/json
 
 {
@@ -31,7 +34,15 @@ Content-Type: application/json
 }
 
 ### Delete item from list
-DELETE http://localhost:8080/api/lists/f8297eac-c8de-4bcd-b9ef-5d16cc736f23/items/Сахар
+DELETE http://localhost:8080/api/lists/test/items/Сахар
 Content-Type: application/json
+
+###
+PATCH http://localhost:8080/api/lists/test/items/Сахар
+Content-Type: application/json
+
+{
+  "name": "Селедка"
+}
 
 ###
