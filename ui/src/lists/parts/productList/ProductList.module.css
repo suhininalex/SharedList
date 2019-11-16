@@ -20,6 +20,15 @@
     padding: 8px;
 }
 
+.listNameContainer {
+    display: flex;
+    align-items: center;
+}
+
+.listNameContainer > h2 {
+    flex-grow: 1;
+}
+
 .itemsList {
     max-height: 74vh;
     overflow-y: auto;

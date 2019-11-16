@@ -3,7 +3,8 @@ import {
     FETCH_LIST_SUCCESS,
     FETCH_LIST_ERROR,
     LIST_ADD_ITEM,
-    LIST_REMOVE_ITEM
+    LIST_REMOVE_ITEM,
+    REMOVE_LIST
 } from './consts';
 
 const initialState = {
@@ -45,13 +46,16 @@ const productListReducer = (state = initialState, action) => {
             }
 
         case LIST_REMOVE_ITEM:
-        return {
-            ...state,
-            data: {
-                ...state.data,
-                items: state.data.items.filter(item => item.name !== action.payload.id)
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    items: state.data.items.filter(item => item.name !== action.payload.id)
+                }
             }
-        }
+
+        case REMOVE_LIST:
+            return initialState
 
         default:
             return state;

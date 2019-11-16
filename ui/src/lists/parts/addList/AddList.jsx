@@ -23,7 +23,6 @@ function AddList(props) {
                     display='block'
                     align='center'
                     variant='h5'
-                    gutterBottom={true}
                     variantMapping={{ h5: 'h2' }}
                 >
                     Новый список

@@ -16,11 +16,11 @@ import {
     CircularProgress
 } from '@material-ui/core'
 
-import { Add, DoneOutlined } from '@material-ui/icons';
+import { Add, DoneOutlined, Delete } from '@material-ui/icons';
 
 import { Redirect } from 'react-router-dom';
 
-import { getList, addListItem, deleteListItem } from '../../thunks';
+import { getList, addListItem, deleteListItem, deleteList } from '../../thunks';
 
 function ProductList(props) {
     const { data, status, error } = useSelector(state => state.productList)
@@ -36,15 +36,19 @@ function ProductList(props) {
             {status === 'success' && (
                 <Paper>
                     <header className={styles.listHeader}>
-                        <Typography
-                            display='block'
-                            align='center'
-                            variant='h5'
-                            gutterBottom={true}
-                            variantMapping={{ h5: 'h2' }}
-                        >
-                            {data.name}
-                        </Typography>
+                        <div className={styles.listNameContainer}>
+                            <Typography
+                                display='block'
+                                align='center'
+                                variant='h5'
+                                variantMapping={{ h5: 'h2' }}
+                            >
+                                {data.name}
+                            </Typography>
+                            <IconButton color='secondary' onClick={() => dispatch(deleteList(data.id)).then(res => props.history.push('/'))}>
+                                <Delete />
+                            </IconButton>
+                        </div>
                         <form
                             className={styles.addItem}
                             onSubmit={(e) => {
