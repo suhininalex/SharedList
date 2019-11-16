@@ -1,0 +1,16 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.addList {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.addList > div:first-child {
+    flex-grow: 1;
+    margin-right: 8px;
+}

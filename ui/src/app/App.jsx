@@ -3,12 +3,12 @@ import React from 'react';
 
 import { BrowserRouter, Route } from 'react-router-dom'
 
-import { ProductList } from 'lists'
+import { ProductList, AddList } from 'lists'
 
 function App() {
   return (
     <BrowserRouter>
-      <Route exact path='/' component={<div />} />
+      <Route exact path='/' component={AddList} />
       <Route path='/lists/:id' component={ProductList} />
     </BrowserRouter>
   );
