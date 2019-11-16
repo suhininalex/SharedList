@@ -1,0 +1,37 @@
+### Find list by id
+GET http://localhost:8080/api/lists/test
+Accept: application/json
+
+### Create new list
+PUT http://localhost:8080/api/lists
+Content-Type: application/json
+
+{
+    "name": "Купить на рынке"
+}
+
+### Rename list
+PATCH http://localhost:8080/api/lists/dbd364f5-0883-4139-bc5c-779675b17ba6
+Content-Type: application/json
+
+{
+    "name": "Купить в магазине"
+}
+
+### Delete list
+DELETE http://localhost:8080/api/lists/8559270e-28d8-4786-a88e-e3710b141314
+Content-Type: application/json
+
+### Add new item to list
+PUT http://localhost:8080/api/lists/f8297eac-c8de-4bcd-b9ef-5d16cc736f23/items
+Content-Type: application/json
+
+{
+  "name": "Сахар"
+}
+
+### Delete item from list
+DELETE http://localhost:8080/api/lists/f8297eac-c8de-4bcd-b9ef-5d16cc736f23/items/Сахар
+Content-Type: application/json
+
+###
