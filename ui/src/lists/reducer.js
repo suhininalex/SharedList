@@ -1,7 +1,8 @@
 import {
     FETCH_LIST,
     FETCH_LIST_SUCCESS,
-    FETCH_LIST_ERROR
+    FETCH_LIST_ERROR,
+    LIST_ADD_ITEM
 } from './consts';
 
 const initialState = {
@@ -32,6 +33,15 @@ const listsReducer = (state = initialState, action) => {
                 status: action.payload.status,
                 error: action.payload.error
             };
+        
+        case LIST_ADD_ITEM:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    items: [...state.data.items, action.payload.item]
+                }
+            }
 
         default:
             return state;

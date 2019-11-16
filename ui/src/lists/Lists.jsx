@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Lists.module.css';
 
@@ -16,12 +16,14 @@ import {
 
 import { Add, DoneOutlined } from '@material-ui/icons';
 
-import { getList } from './thunks';
+import { getList, addListItem } from './thunks';
 
 function Lists(props) {
     const { data, status, error } = useSelector(state => state.lists)
     const dispatch = useDispatch()
     useEffect(() => dispatch(getList()), [])
+    const initialNewItem = {name: ''}
+    const [newItem, changeNewItem] = useState(initialNewItem)
 
     return (
         <Container maxWidth='md'>
@@ -37,17 +39,25 @@ function Lists(props) {
                     >
                         {data.name}
                     </Typography>
-                    <div className={styles.addItem}>
+                    <form 
+                        className={styles.addItem}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            dispatch(addListItem(newItem)).then(changeNewItem(initialNewItem))
+                        }}
+                    >
                         <TextField
                             type='text'
                             variant='outlined'
                             margin='dense'
                             label='Название'
+                            value={newItem.name}
+                            onChange={(e) => changeNewItem({name: e.target.value})}
                         />
-                        <IconButton color='primary'>
+                        <IconButton color='primary' type='submit'>
                             <Add />
                         </IconButton>
-                    </div>
+                    </form>
                     <List
                         disablePadding={true}
                     >
@@ -73,7 +83,5 @@ function Lists(props) {
         </Container>
     )
 }
-
-    
 
 export { Lists }
