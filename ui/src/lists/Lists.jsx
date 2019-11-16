@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Lists.module.css';
 
-import { 
+import {
     IconButton,
     TextField,
     List,
@@ -18,13 +18,15 @@ import {
 
 import { Add, DoneOutlined } from '@material-ui/icons';
 
+import { Redirect } from 'react-router-dom';
+
 import { getList, addListItem, deleteListItem } from './thunks';
 
 function Lists(props) {
     const { data, status, error } = useSelector(state => state.lists)
     const dispatch = useDispatch()
-    useEffect(() => dispatch(getList()), [])
-    const initialNewItem = {name: ''}
+    useEffect(() => dispatch(getList(props.match.params.id)), [props.match.params.id, dispatch])
+    const initialNewItem = { name: '' }
     const [newItem, changeNewItem] = useState(initialNewItem)
     const addItemInput = useRef(null)
 
@@ -39,11 +41,11 @@ function Lists(props) {
                             align='center'
                             variant='h5'
                             gutterBottom={true}
-                            variantMapping={{h5: 'h2'}}
+                            variantMapping={{ h5: 'h2' }}
                         >
                             {data.name}
                         </Typography>
-                        <form 
+                        <form
                             className={styles.addItem}
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -58,7 +60,7 @@ function Lists(props) {
                                 label='Название'
                                 value={newItem.name}
                                 inputRef={addItemInput}
-                                onChange={(e) => changeNewItem({name: e.target.value})}
+                                onChange={(e) => changeNewItem({ name: e.target.value })}
                             />
                             <IconButton color='primary' type='submit'>
                                 <Add />
@@ -69,7 +71,7 @@ function Lists(props) {
                         disablePadding={true}
                         className={styles.itemsList}
                     >
-                        {data.items && data.items.map((item, index, array) => (
+                        {data.items && data.items.map(item => (
                             <React.Fragment>
                                 <Divider />
                                 <ListItem button>
@@ -86,8 +88,8 @@ function Lists(props) {
                         ))}
                     </List>
                 </Paper>
-            )
-        }
+            )}
+            {error && error.code === 404 && <Redirect to='/' />}
         </Container>
     )
 }
