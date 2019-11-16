@@ -9,15 +9,23 @@ class ItemsManagerDummy: ItemsManager {
         return ItemList(UIDGenerator.getID(), name, emptyList())
     }
 
-    override fun rename(id: String, name: String) {
+    override fun rename(listId: String, name: String) {
 
     }
 
-    override fun find(id: String): ItemList {
-        return ItemList(id, "List name", listOf(Item("Orange"), Item("Lemon")))
+    override fun find(listId: String): ItemList {
+        return ItemList(listId, "List name", listOf(Item("Orange"), Item("Lemon")))
     }
 
-    override fun addItem(id: String, item: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun remove(listId: String) {
+
+    }
+
+    override fun addItem(listId: String, item: Item) {
+
+    }
+
+    override fun removeItem(listId: String, itemId: String) {
+
     }
 }

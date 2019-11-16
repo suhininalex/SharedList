@@ -1,5 +1,6 @@
 package com.sharedlist
 
+import com.sharedlist.api.Item
 import com.sharedlist.api.ItemsManager
 import com.sharedlist.impl.ItemsManagerDummy
 import io.javalin.Javalin
@@ -14,7 +15,7 @@ fun main() {
         config.enableCorsForAllOrigins()
     }
     .routes {
-        path("/api/items/") {
+        path("/api/lists/") {
             get(":id") { context ->
                 val id = context.pathParam("id")
                 val itemList = itemsManager.find(id)
@@ -24,6 +25,12 @@ fun main() {
                 } else {
                     throw NotFoundResponse()
                 }
+            }
+
+            delete(":id") { context ->
+                val id = context.pathParam("id")
+                itemsManager.remove(id)
+                context.status(200)
             }
 
             put("") { context ->
@@ -39,10 +46,20 @@ fun main() {
                 itemsManager.rename(id, value.name)
                 context.status(200)
             }
-        }
 
-        get("/") { context ->
-            context.result("Go duck yourself")
+            put(":id/items") { context ->
+                val id = context.pathParam("id")
+                val item = context.bodyAsClass(Item::class.java)
+                itemsManager.addItem(id, item)
+                context.status(201)
+            }
+
+            delete(":listId/items/:itemId") { context ->
+                val listId = context.pathParam("listId")
+                val itemId = context.pathParam("itemId")
+                itemsManager.removeItem(listId, itemId)
+                context.status(200)
+            }
         }
     }
     .start(8080)
