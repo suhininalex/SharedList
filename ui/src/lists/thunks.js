@@ -1,4 +1,4 @@
-import { listFetchInit, listFetchSuccess, listFetchFailure, listAddItem, listRemoveItem, removeList } from './actions';
+import { listFetchInit, listFetchSuccess, listFetchFailure, listAddItem, listRemoveItem, removeList, changeListCurrentName } from './actions';
 import { url } from './consts';
 import { call } from 'libs/api-helpers';
 // import { fetchListMock } from './mocks'
@@ -27,4 +27,12 @@ export const deleteListItem = (listId, itemid) => (dispatch) => {
 export const deleteList = (listId) => (dispatch) => {
     return call(`${url}/lists/${listId}`, 'DELETE', {}, data => data)
         .then(response => dispatch(removeList(listId)))
+}
+
+export const saveListName = (listId, listName) => (dispatch) => {
+    return call(`${url}/lists/${listId}`, 'PATCH', {}, data => data, null, {name: listName})
+        .then(res => {
+            dispatch(changeListCurrentName(listName))
+            window.document.title = listName;
+        })
 }

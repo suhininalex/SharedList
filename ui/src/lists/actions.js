@@ -4,7 +4,9 @@ import {
     FETCH_LIST_ERROR,
     LIST_ADD_ITEM,
     LIST_REMOVE_ITEM,
-    REMOVE_LIST
+    REMOVE_LIST,
+    LIST_CHANGE_NEW_NAME,
+    LIST_CHANGE_CURRENT_NAME
 } from './consts';
 
 export const listFetchInit = () => {
@@ -59,6 +61,24 @@ export const removeList = (id) => {
         type: REMOVE_LIST,
         payload: {
             id
+        }
+    }
+}
+
+export const changeNewListName = (name) => {
+    return {
+        type: LIST_CHANGE_NEW_NAME,
+        payload: {
+            name
+        }
+    }
+}
+
+export const changeListCurrentName = (name) => {
+    return {
+        type: LIST_CHANGE_CURRENT_NAME,
+        payload: {
+            name
         }
     }
 }

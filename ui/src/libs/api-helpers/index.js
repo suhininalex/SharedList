@@ -18,14 +18,11 @@ function requestOptionsBuilder(method, headers, body) {
 const switchResponseStatus = (response) => {
     switch (response.status) {
         case 200: {
-            return response.json().catch(error => {
-                throw { type: 'JsonParserError', message: error.message ? error.message : error }
-            });
+            console.log(response)
+            return response.json().catch(error => response.status);
         }
         case 201: {
-            return response.json().catch(error => {
-                throw { type: 'JsonParserError', message: error.message ? error.message : error }
-            });
+            return response.json().catch(error => response.status);
         }
         case 204: {
             return 'success';

@@ -4,12 +4,15 @@ import {
     FETCH_LIST_ERROR,
     LIST_ADD_ITEM,
     LIST_REMOVE_ITEM,
-    REMOVE_LIST
+    REMOVE_LIST,
+    LIST_CHANGE_NEW_NAME,
+    LIST_CHANGE_CURRENT_NAME
 } from './consts';
 
 const initialState = {
     status: 'none',
     data: {},
+    newName: '',
     error: null
 };
 
@@ -25,6 +28,7 @@ const productListReducer = (state = initialState, action) => {
         case FETCH_LIST_SUCCESS:
             return {
                 ...state,
+                newName: action.payload.data.name,
                 status: action.payload.status,
                 data: action.payload.data
             };
@@ -56,6 +60,23 @@ const productListReducer = (state = initialState, action) => {
 
         case REMOVE_LIST:
             return initialState
+
+        case LIST_CHANGE_NEW_NAME: {
+            return {
+                ...state,
+                newName: action.payload.name
+            }
+        }
+
+        case LIST_CHANGE_CURRENT_NAME: {
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    name: action.payload.name
+                }
+            }
+        }
 
         default:
             return state;

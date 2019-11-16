@@ -16,18 +16,20 @@ import {
     CircularProgress
 } from '@material-ui/core'
 
-import { Add, DoneOutlined, Delete } from '@material-ui/icons';
+import { Add, DoneOutlined, Delete, Close } from '@material-ui/icons';
 
 import { Redirect } from 'react-router-dom';
 
-import { getList, addListItem, deleteListItem, deleteList } from '../../thunks';
+import { getList, addListItem, deleteListItem, deleteList, saveListName } from '../../thunks';
+import { changeNewListName } from '../../actions';
 
 function ProductList(props) {
-    const { data, status, error } = useSelector(state => state.productList)
+    const { data, status, error, newName } = useSelector(state => state.productList)
     const dispatch = useDispatch()
     useEffect(() => dispatch(getList(props.match.params.id)), [props.match.params.id, dispatch])
     const initialNewItem = { name: '' }
     const [newItem, changeNewItem] = useState(initialNewItem)
+    const [isEditMode, handleEditMode] = useState(false);
     const addItemInput = useRef(null)
 
     return (
@@ -36,24 +38,67 @@ function ProductList(props) {
             {status === 'success' && (
                 <Paper>
                     <header className={styles.listHeader}>
-                        <div className={styles.listNameContainer}>
-                            <Typography
-                                display='block'
-                                align='center'
-                                variant='h5'
-                                variantMapping={{ h5: 'h2' }}
+                        {isEditMode ? (
+                            <form
+                                className={styles.changeNameForm}
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    if (newName === data.name) {
+                                        handleEditMode(false)
+                                        return
+                                    }
+                                    dispatch(saveListName(data.id, newName)).then(res => handleEditMode(false))
+                                }}
                             >
-                                {data.name}
-                            </Typography>
-                            <IconButton color='secondary' onClick={() => dispatch(deleteList(data.id)).then(res => props.history.push('/'))}>
-                                <Delete />
-                            </IconButton>
-                        </div>
+                                <TextField
+                                    type='text'
+                                    variant='outlined'
+                                    margin='dense'
+                                    label='Название списка'
+                                    value={newName}
+                                    autoFocus={true}
+                                    onChange={(e) => dispatch(changeNewListName(e.target.value))}
+                                />
+                                <IconButton
+                                    color='primary'
+                                    type='submit'
+                                >
+                                    <DoneOutlined />
+                                </IconButton>
+                                <IconButton
+                                    type='button'
+                                    color='secondary'
+                                    onClick={() => {
+                                        if (data.name !== newName) {
+                                            dispatch(changeNewListName(data.name))
+                                        }
+                                        handleEditMode(false)
+                                    }}
+                                >
+                                    <Close />
+                                </IconButton>
+                            </form>
+                        ) : (
+                                <div className={styles.listNameContainer}>
+                                    <Typography
+                                        display='block'
+                                        align='center'
+                                        variant='h5'
+                                        variantMapping={{ h5: 'h2' }}
+                                        onClick={() => handleEditMode(true)}
+                                    >
+                                        {data.name}
+                                    </Typography>
+                                    <IconButton color='secondary' onClick={() => dispatch(deleteList(data.id)).then(res => props.history.push('/'))}>
+                                        <Delete />
+                                    </IconButton>
+                                </div>
+                            )}
                         <form
                             className={styles.addItem}
                             onSubmit={(e) => {
                                 e.preventDefault();
-                                dispatch(addListItem(newItem)).then(changeNewItem(initialNewItem))
+                                dispatch(addListItem(data.id, newItem)).then(changeNewItem(initialNewItem))
                                 addItemInput.current.focus();
                             }}
                         >
@@ -83,7 +128,7 @@ function ProductList(props) {
                                         {item.name}
                                     </ListItemText>
                                     <ListItemSecondaryAction>
-                                        <IconButton onClick={() => dispatch(deleteListItem(item.name))}>
+                                        <IconButton onClick={() => dispatch(deleteListItem(data.id, item.name))}>
                                             <DoneOutlined />
                                         </IconButton>
                                     </ListItemSecondaryAction>
