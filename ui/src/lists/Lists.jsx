@@ -12,7 +12,8 @@ import {
     Divider,
     Container,
     Typography,
-    Paper
+    Paper,
+    CircularProgress
 } from '@material-ui/core'
 
 import { Add, DoneOutlined } from '@material-ui/icons';
@@ -29,7 +30,7 @@ function Lists(props) {
 
     return (
         <Container maxWidth='md'>
-            {status === 'loading' && 'Loading...'}
+            {status === 'loading' && <CircularProgress />}
             {status === 'success' && (
                 <Paper>
                     <header className={styles.listHeader}>
