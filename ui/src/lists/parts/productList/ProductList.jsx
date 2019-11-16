@@ -31,7 +31,7 @@ function ProductList(props) {
     const addItemInput = useRef(null)
 
     return (
-        <Container maxWidth='md'>
+        <div className={styles.container}>
             {status === 'loading' && <CircularProgress />}
             {status === 'success' && (
                 <Paper>
@@ -90,7 +90,7 @@ function ProductList(props) {
                 </Paper>
             )}
             {error && error.code === 404 && <Redirect to='/' />}
-        </Container>
+        </div>
     )
 }
 

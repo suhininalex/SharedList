@@ -1,3 +1,8 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .addItem {
     width: 100%;
     display: flex;
@@ -7,7 +12,7 @@
 
 .addItem > div:first-child {
     flex-grow: 1;
-    margin-right: 16px;
+    margin-right: 8px;
 }
 
 .listHeader {
