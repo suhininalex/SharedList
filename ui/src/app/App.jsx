@@ -5,7 +5,7 @@ import { Lists } from 'lists'
 
 function App() {
   return (
-    <div className={styles.App}>
+    <div>
       <Lists />
     </div>
   );
