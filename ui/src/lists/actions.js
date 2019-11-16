@@ -3,6 +3,7 @@ import {
     FETCH_LIST_SUCCESS,
     FETCH_LIST_ERROR,
     LIST_ADD_ITEM,
+    LIST_REMOVE_ITEM
 } from './consts';
 
 export const listFetchInit = () => {
@@ -39,6 +40,15 @@ export const listAddItem = (item) => {
         type: LIST_ADD_ITEM,
         payload: {
             item
+        }
+    }
+}
+
+export const listRemoveItem = (id) => {
+    return {
+        type: LIST_REMOVE_ITEM,
+        payload: {
+            id
         }
     }
 }

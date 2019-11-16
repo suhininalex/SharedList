@@ -2,7 +2,8 @@ import {
     FETCH_LIST,
     FETCH_LIST_SUCCESS,
     FETCH_LIST_ERROR,
-    LIST_ADD_ITEM
+    LIST_ADD_ITEM,
+    LIST_REMOVE_ITEM
 } from './consts';
 
 const initialState = {
@@ -42,6 +43,15 @@ const listsReducer = (state = initialState, action) => {
                     items: [...state.data.items, action.payload.item]
                 }
             }
+
+        case LIST_REMOVE_ITEM:
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                items: state.data.items.filter(item => item.name !== action.payload.id)
+            }
+        }
 
         default:
             return state;

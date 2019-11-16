@@ -16,7 +16,7 @@ import {
 
 import { Add, DoneOutlined } from '@material-ui/icons';
 
-import { getList, addListItem } from './thunks';
+import { getList, addListItem, deleteListItem } from './thunks';
 
 function Lists(props) {
     const { data, status, error } = useSelector(state => state.lists)
@@ -68,7 +68,7 @@ function Lists(props) {
                                         {item.name}
                                     </ListItemText>
                                     <ListItemSecondaryAction>
-                                        <IconButton>
+                                        <IconButton onClick={() => dispatch(deleteListItem(item.name))}>
                                             <DoneOutlined />
                                         </IconButton>
                                     </ListItemSecondaryAction>
