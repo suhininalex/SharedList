@@ -20,7 +20,7 @@ import { Add, DoneOutlined } from '@material-ui/icons';
 
 import { Redirect } from 'react-router-dom';
 
-import { getList, addListItem, deleteListItem } from './thunks';
+import { getList, addListItem, deleteListItem } from '../../thunks';
 
 function ProductList(props) {
     const { data, status, error } = useSelector(state => state.productList)
