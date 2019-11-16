@@ -7,7 +7,11 @@ import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.http.NotFoundResponse
 
-data class Name(val name: String)
+data class Name(val name: String) {
+    init {
+        require(name.isNotBlank())
+    }
+}
 
 fun main() {
     val itemsManager: ItemsManager = ItemsManagerDummy()
@@ -30,7 +34,7 @@ fun main() {
             delete(":id") { context ->
                 val id = context.pathParam("id")
                 itemsManager.remove(id)
-                context.status(200)
+                context.status(204)
             }
 
             put("") { context ->
@@ -51,6 +55,7 @@ fun main() {
                 val id = context.pathParam("id")
                 val item = context.bodyAsClass(Item::class.java)
                 itemsManager.addItem(id, item)
+                context.json(item)
                 context.status(201)
             }
 
@@ -58,7 +63,7 @@ fun main() {
                 val listId = context.pathParam("listId")
                 val itemId = context.pathParam("itemId")
                 itemsManager.removeItem(listId, itemId)
-                context.status(200)
+                context.status(204)
             }
         }
     }

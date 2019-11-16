@@ -9,6 +9,10 @@ interface ItemsManager {
     fun removeItem(listId: String, itemId: String)
 }
 
-data class Item(val name: String)
+data class Item(val name: String) {
+    init {
+        require(name.isNotBlank())
+    }
+}
 
 data class ItemList (val id: String, val name: String, val items: List<Item>)
