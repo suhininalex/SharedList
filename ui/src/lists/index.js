@@ -1,2 +1,2 @@
-export { listsReducer } from './reducer'
-export { Lists } from './Lists'
+export { productListReducer } from './reducer'
+export { ProductList } from './ProductList'

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import styles from './Lists.module.css';
+import styles from './ProductList.module.css';
 
 import {
     IconButton,
@@ -22,8 +22,8 @@ import { Redirect } from 'react-router-dom';
 
 import { getList, addListItem, deleteListItem } from './thunks';
 
-function Lists(props) {
-    const { data, status, error } = useSelector(state => state.lists)
+function ProductList(props) {
+    const { data, status, error } = useSelector(state => state.productList)
     const dispatch = useDispatch()
     useEffect(() => dispatch(getList(props.match.params.id)), [props.match.params.id, dispatch])
     const initialNewItem = { name: '' }
@@ -94,4 +94,4 @@ function Lists(props) {
     )
 }
 
-export { Lists }
+export { ProductList }

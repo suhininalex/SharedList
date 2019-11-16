@@ -15,11 +15,11 @@ import logger from 'redux-logger'
 import './index.css';
 
 import { App } from 'app';
-import { listsReducer } from 'lists';
+import { productListReducer } from 'lists';
 
 const store = createStore(
     combineReducers({
-        lists: listsReducer,
+        productList: productListReducer,
     }),
     applyMiddleware(thunk, logger)
 );

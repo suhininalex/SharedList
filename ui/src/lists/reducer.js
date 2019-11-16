@@ -12,7 +12,7 @@ const initialState = {
     error: null
 };
 
-const listsReducer = (state = initialState, action) => {
+const productListReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case FETCH_LIST:
@@ -58,4 +58,4 @@ const listsReducer = (state = initialState, action) => {
     }
 }
 
-export { listsReducer }
+export { productListReducer }
