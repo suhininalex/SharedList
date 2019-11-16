@@ -1,12 +1,20 @@
-GET http://localhost:8080/api/items/atata
+GET http://localhost:8080/api/items/bdd385d7-766e-4af9-9e5f-696a6b4aac1c
 Accept: application/json
 
 ###
-PATCH http://localhost:8080/api/items
+PUT http://localhost:8080/api/items
 Content-Type: application/json
 
 {
-  "name": "К обеду"
+    "name": "Купить на рынке"
+}
+
+###
+PATCH http://localhost:8080/api/items/bdd385d7-766e-4af9-9e5f-696a6b4aac1c
+Content-Type: application/json
+
+{
+    "name": "Купить в магазине"
 }
 
 ###

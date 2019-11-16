@@ -1,41 +1,44 @@
 package com.sharedlist
 
+import com.sharedlist.api.ItemsManager
+import com.sharedlist.impl.ItemsManagerDummy
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
-import java.util.UUID
+import io.javalin.http.NotFoundResponse
 
-data class Item(val name: String)
-data class Value(val name: String)
+data class Name(val name: String)
 
 fun main() {
+    val itemsManager: ItemsManager = ItemsManagerDummy()
     Javalin.create{ config ->
         config.enableCorsForAllOrigins()
     }
     .routes {
-        get("/api/items/:id") { context ->
-            val id = context.pathParam("id")
-            val list = ItemList(
-                id,
-                "До сала",
-                listOf(
-                    Item("Сало"),
-                    Item("Лук"),
-                    Item("Горилка")
-                )
-            )
-            context.json(list)
-            context.status(200)
-        }
+        path("/api/items/") {
+            get(":id") { context ->
+                val id = context.pathParam("id")
+                val itemList = itemsManager.find(id)
+                if (itemList != null) {
+                    context.json(itemList)
+                    context.status(200)
+                } else {
+                    throw NotFoundResponse()
+                }
+            }
 
-        patch("/api/items") { context ->
-            val value = context.bodyAsClass(Value::class.java)
-            val newElement = ItemList(
-                generateUID(),
-                value.name,
-                listOf()
-            )
-            context.json(newElement)
-            context.status(201)
+            put("") { context ->
+                val value = context.bodyAsClass(Name::class.java)
+                val itemList = itemsManager.create(value.name)
+                context.json(itemList)
+                context.status(201)
+            }
+
+            patch(":id") { context ->
+                val id = context.pathParam("id")
+                val value = context.bodyAsClass(Name::class.java)
+                itemsManager.rename(id, value.name)
+                context.status(200)
+            }
         }
 
         get("/") { context ->
@@ -45,6 +48,5 @@ fun main() {
     .start(8080)
 }
 
-fun generateUID() = UUID.randomUUID().toString()
 
-data class ItemList (val id: String, val name: String, val items: List<Item>)
+
