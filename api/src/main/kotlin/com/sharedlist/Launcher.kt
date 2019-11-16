@@ -6,6 +6,7 @@ import com.sharedlist.impl.ItemsManagerDummy
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.http.NotFoundResponse
+import io.javalin.http.staticfiles.Location
 
 data class Name(val name: String) {
     init {
@@ -17,6 +18,7 @@ fun main() {
     val itemsManager: ItemsManager = ItemsManagerDummy()
     Javalin.create{ config ->
         config.enableCorsForAllOrigins()
+        config.addStaticFiles("ui/", Location.EXTERNAL)
     }
     .routes {
         path("/api/lists/") {
