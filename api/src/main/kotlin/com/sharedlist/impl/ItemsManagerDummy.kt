@@ -34,9 +34,7 @@ class ItemsManagerDummy: ItemsManager {
 
     override fun addItem(listId: String, item: Item) {
         val itemList = listMap[listId] ?: return
-        if (itemList.items.contains(item)) {
-            throw IllegalStateException()
-        }
+        if (itemList.items.contains(item)) return
         listMap[listId] = itemList.copy(items = itemList.items + listOf(item))
     }
 
