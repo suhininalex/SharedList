@@ -1,0 +1,12 @@
+GET http://localhost:8080/api/items/atata
+Accept: application/json
+
+###
+PATCH http://localhost:8080/api/items
+Content-Type: application/json
+
+{
+  "name": "К обеду"
+}
+
+###
