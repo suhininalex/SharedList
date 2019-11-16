@@ -11,7 +11,8 @@ import {
     ListItemSecondaryAction,
     Divider,
     Container,
-    Typography
+    Typography,
+    Paper
 } from '@material-ui/core'
 
 import { Add, DoneOutlined } from '@material-ui/icons';
@@ -30,42 +31,46 @@ function Lists(props) {
         <Container maxWidth='md'>
             {status === 'loading' && 'Loading...'}
             {status === 'success' && (
-                <React.Fragment>
-                    <Typography
-                        display='block'
-                        align='center'
-                        variant='h5'
-                        gutterBottom={true}
-                        variantMapping={{h5: 'h2'}}
-                    >
-                        {data.name}
-                    </Typography>
-                    <form 
-                        className={styles.addItem}
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            dispatch(addListItem(newItem)).then(changeNewItem(initialNewItem))
-                            addItemInput.current.focus();
-                        }}
-                    >
-                        <TextField
-                            type='text'
-                            variant='outlined'
-                            margin='dense'
-                            label='Название'
-                            value={newItem.name}
-                            inputRef={addItemInput}
-                            onChange={(e) => changeNewItem({name: e.target.value})}
-                        />
-                        <IconButton color='primary' type='submit'>
-                            <Add />
-                        </IconButton>
-                    </form>
+                <Paper>
+                    <header className={styles.listHeader}>
+                        <Typography
+                            display='block'
+                            align='center'
+                            variant='h5'
+                            gutterBottom={true}
+                            variantMapping={{h5: 'h2'}}
+                        >
+                            {data.name}
+                        </Typography>
+                        <form 
+                            className={styles.addItem}
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                dispatch(addListItem(newItem)).then(changeNewItem(initialNewItem))
+                                addItemInput.current.focus();
+                            }}
+                        >
+                            <TextField
+                                type='text'
+                                variant='outlined'
+                                margin='dense'
+                                label='Название'
+                                value={newItem.name}
+                                inputRef={addItemInput}
+                                onChange={(e) => changeNewItem({name: e.target.value})}
+                            />
+                            <IconButton color='primary' type='submit'>
+                                <Add />
+                            </IconButton>
+                        </form>
+                    </header>
                     <List
                         disablePadding={true}
+                        className={styles.itemsList}
                     >
                         {data.items && data.items.map((item, index, array) => (
                             <React.Fragment>
+                                <Divider />
                                 <ListItem button>
                                     <ListItemText>
                                         {item.name}
@@ -76,11 +81,10 @@ function Lists(props) {
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
-                                {index !== array.length - 1 && <Divider />}
                             </React.Fragment>
                         ))}
                     </List>
-                </React.Fragment>
+                </Paper>
             )
         }
         </Container>

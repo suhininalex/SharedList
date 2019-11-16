@@ -9,3 +9,13 @@
     flex-grow: 1;
     margin-right: 16px;
 }
+
+.listHeader {
+    border-radius: 4px 4px 0 0;
+    padding: 8px;
+}
+
+.itemsList {
+    max-height: 80vh;
+    overflow-y: auto;
+}
