@@ -1,6 +1,6 @@
 FROM java:8-jdk-alpine
 
-COPY ./build/libs/api-0.1.jar /usr/app/
+COPY ./out/ /usr/app/
 WORKDIR /usr/app
-EXPOSE 8080
+EXPOSE 80
 ENTRYPOINT ["java", "-jar", "api-0.1.jar"]
