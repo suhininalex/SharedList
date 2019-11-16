@@ -19,6 +19,7 @@ fun main() {
     Javalin.create{ config ->
         config.enableCorsForAllOrigins()
         config.addStaticFiles("ui/", Location.EXTERNAL)
+        config.addSinglePageRoot("/", "ui/index.html", Location.EXTERNAL)
     }
     .routes {
         path("/api/lists/") {
@@ -68,7 +69,7 @@ fun main() {
                 context.status(204)
             }
 
-            patch(":listId/items/:itemId") { context ->
+            patch(":listId/items/delete") { context ->
                 val listId = context.pathParam("listId")
                 val itemId = context.pathParam("itemId")
                 val value = context.bodyAsClass(Name::class.java)
