@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Lists.module.css';
 
@@ -24,6 +24,7 @@ function Lists(props) {
     useEffect(() => dispatch(getList()), [])
     const initialNewItem = {name: ''}
     const [newItem, changeNewItem] = useState(initialNewItem)
+    const addItemInput = useRef(null)
 
     return (
         <Container maxWidth='md'>
@@ -44,6 +45,7 @@ function Lists(props) {
                         onSubmit={(e) => {
                             e.preventDefault();
                             dispatch(addListItem(newItem)).then(changeNewItem(initialNewItem))
+                            addItemInput.current.focus();
                         }}
                     >
                         <TextField
@@ -52,6 +54,7 @@ function Lists(props) {
                             margin='dense'
                             label='Название'
                             value={newItem.name}
+                            inputRef={addItemInput}
                             onChange={(e) => changeNewItem({name: e.target.value})}
                         />
                         <IconButton color='primary' type='submit'>
