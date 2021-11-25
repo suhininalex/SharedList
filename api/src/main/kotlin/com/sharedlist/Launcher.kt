@@ -18,7 +18,7 @@ fun main() {
     val itemsManager: ItemsManager = ItemsManagerDummy()
     Javalin.create{ config ->
         config.enableCorsForAllOrigins()
-        config.addStaticFiles("ui/", Location.EXTERNAL)
+//        config.addStaticFiles("ui/", Location.EXTERNAL)
         config.addSinglePageRoot("/", "ui/index.html", Location.EXTERNAL)
     }
     .routes {
