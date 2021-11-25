@@ -6,7 +6,6 @@ import com.sharedlist.impl.ItemsManagerDummy
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.http.NotFoundResponse
-import io.javalin.http.staticfiles.Location
 
 data class Name(val name: String) {
     init {
@@ -18,12 +17,13 @@ fun main() {
     val itemsManager: ItemsManager = ItemsManagerDummy()
     Javalin.create{ config ->
         config.enableCorsForAllOrigins()
+//        config.addStaticFiles("html/", Location.EXTERNAL)
 //        config.addStaticFiles("ui/", Location.EXTERNAL)
-        config.addSinglePageRoot("/", "ui/index.html", Location.EXTERNAL)
+//        config.addSinglePageRoot("/", "ui/index.html", Location.EXTERNAL)
     }
     .routes {
         path("/api/lists/") {
-            get(":id") { context ->
+            get("{id}") { context ->
                 val id = context.pathParam("id")
                 val itemList = itemsManager.find(id)
                 if (itemList != null) {
@@ -34,7 +34,7 @@ fun main() {
                 }
             }
 
-            delete(":id") { context ->
+            delete("{id}") { context ->
                 val id = context.pathParam("id")
                 itemsManager.remove(id)
                 context.status(204)
@@ -47,14 +47,14 @@ fun main() {
                 context.status(201)
             }
 
-            patch(":id") { context ->
+            patch("{id}") { context ->
                 val id = context.pathParam("id")
                 val value = context.bodyAsClass(Name::class.java)
                 itemsManager.rename(id, value.name)
                 context.status(200)
             }
 
-            put(":id/items") { context ->
+            put("{id}/items") { context ->
                 val id = context.pathParam("id")
                 val item = context.bodyAsClass(Item::class.java)
                 itemsManager.addItem(id, item)
@@ -62,14 +62,14 @@ fun main() {
                 context.status(201)
             }
 
-            delete(":listId/items/:itemId") { context ->
+            delete("{listId}/items/{itemId}") { context ->
                 val listId = context.pathParam("listId")
                 val itemId = context.pathParam("itemId")
                 itemsManager.removeItem(listId, itemId)
                 context.status(204)
             }
 
-            patch(":listId/items/delete") { context ->
+            patch("{listId}/items/delete") { context ->
                 val listId = context.pathParam("listId")
                 val itemId = context.pathParam("itemId")
                 val value = context.bodyAsClass(Name::class.java)
@@ -78,7 +78,7 @@ fun main() {
             }
         }
     }
-    .start(8080)
+    .start(80)
 }
 
 
