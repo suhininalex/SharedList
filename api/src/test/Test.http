@@ -6,7 +6,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:80/api/lists/f6b0e056-7bed-480a-a9b4-d2b7a049e854/items
+PUT http://localhost:80/api/lists/8750e8a5-834b-4f7f-b5d3-dd9acc7a17a8/items
 Content-Type: application/json
 
 {
@@ -14,5 +14,9 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:80/api/lists/f6b0e056-7bed-480a-a9b4-d2b7a049e854
+GET http://localhost:80/api/lists/8750e8a5-834b-4f7f-b5d3-dd9acc7a17a8
+Content-Type: application/json
+
+###
+DELETE http://localhost:80/api/lists/fb8d3caf-a3f5-4e0d-87fa-b357bf8fd157/items/fdw
 Content-Type: application/json

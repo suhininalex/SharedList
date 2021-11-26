@@ -17,16 +17,7 @@
     </div>
     <ul class="list-group" id="list">
         <li class="list-group-item">
-            <div class="row">
-                <div class="col">Сало</div>
-                <div class="col-sm-auto"><button type="button" class="btn-close" aria-label="Close"></button></div>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col">Сало</div>
-                <div class="col-sm-auto"><button type="button" class="btn-close" aria-label="Close"></button></div>
-            </div>
+            Loading...
         </li>
     </ul>
 </div>
@@ -35,28 +26,68 @@
     let listId = getParameterByName("id")
 
     window.addEventListener('DOMContentLoaded', () => {
-        //load list
+        loadAllItems()
     });
+
+    let itemId = 1
+
+    function loadAllItems(){
+        fetch(`/api/lists/${listId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                }
+            })
+            .then(res => res.json())
+            .then(json => {
+                for (const item of json.items) {
+                    document.getElementById('list').insertAdjacentHTML("beforeend", createNewItem(itemId++, item.name))
+                }
+            })
+    }
 
     function addItemFromInput(inputFieldId){
         let inputField = document.getElementById(inputFieldId)
         let name = inputField.value
-        if (name) {
-            inputField.value = ""
-            addNewElement(name)
+        inputField.value = ""
+        if (!name) return
+
+        let options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({name: name})
         }
+        fetch(`/api/lists/${listId}/items`, options)
+            .then(res => res.json())
+            .then(json => {
+                document.getElementById('list').insertAdjacentHTML("beforeend", createNewItem(`item-${itemId++}`, name))
+            })
     }
 
-    function addNewElement(name){
-        let newElement =
-            `<li class="list-group-item">
-                <div class="row">
-                    <div class="col">${name}</div>
-                    <div class="col-sm-auto"><button type="button" class="btn-close" aria-label="Close"/></div>
-                </div>
-            </li>`
-        let list = document.getElementById("list")
-        list.insertAdjacentHTML("beforeend", newElement)
+    function createNewItem(id, name){
+        return `<li class="list-group-item" id="${id}">
+                    <div class="row">
+                        <div class="col">${name}</div>
+                        <div class="col-sm-auto">
+                            <button type="button" class="btn-close" aria-label="Close" onclick="removeItem('${id}', '${name}')"/>
+                        </div>
+                    </div>
+                </li>`
+    }
+
+    function removeItem(id, name){
+        let options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        }
+        fetch(`/api/lists/${listId}/items/${name}`, options)
+            .then( result => {
+                document.getElementById(id).remove()
+            })
     }
 
     function getParameterByName(name, url = window.location.href) {
