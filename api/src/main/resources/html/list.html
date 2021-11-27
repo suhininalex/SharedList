@@ -28,23 +28,22 @@
 <script>
 
     let listId = parseGetParameter("id")
-    let itemId = 1
 
     window.addEventListener('DOMContentLoaded', () => {
         DataManager.getList(listId)
             .then(json => {
                 for (const item of json.items) {
-                    document.getElementById('list').insertAdjacentHTML("beforeend", createItemElement(itemId++, item.name))
+                    document.getElementById('list').insertAdjacentHTML("beforeend", createItemElement(item.id, item.name))
                 }
             })
     });
 
     function createItemElement(id, name) {
-        return `<li class="list-group-item" id="${id}">
+        return `<li class="list-group-item" id="item-${id}">
                     <div class="row">
                         <div class="col">${name}</div>
                         <div class="col-sm-auto">
-                            <button type="button" class="btn-close" aria-label="Close" onclick="removeItem('${id}', '${name}')"/>
+                            <button type="button" class="btn-close" aria-label="Close" onclick="removeItem('${id}')"/>
                         </div>
                     </div>
                 </li>`
@@ -56,16 +55,16 @@
         if (!name) return
 
         DataManager.addItem(listId, name)
-            .then(json => {
+            .then(item => {
                 inputField.value = ""
-                document.getElementById('list').insertAdjacentHTML("beforeend", createItemElement(`item-${itemId++}`, json.name))
+                document.getElementById('list').insertAdjacentHTML("beforeend", createItemElement(`item-${item.id}`, item.name))
             })
     }
 
-    function removeItem(id, name) {
-        DataManager.removeItem(listId, name)
+    function removeItem(itemId) {
+        DataManager.removeItem(listId, itemId)
             .then(() => {
-                document.getElementById(id).remove()
+                document.getElementById(`item-${itemId}`).remove()
             })
     }
 

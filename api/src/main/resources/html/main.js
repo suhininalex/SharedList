@@ -1,7 +1,7 @@
 class DataManager {
 
     static createList(name) {
-        return fetch("/api/lists/", {
+        return fetchJson("/api/lists/", {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

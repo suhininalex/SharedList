@@ -30,8 +30,8 @@
         let name = document.getElementById("listName").value
         if (name) {
             DataManager.createList(name)
-                .then(json => {
-                    document.location.href = `list.html?id=${json.id}`
+                .then(list => {
+                    document.location.href = `list.html?id=${list.id}`
                 })
         }
     }
