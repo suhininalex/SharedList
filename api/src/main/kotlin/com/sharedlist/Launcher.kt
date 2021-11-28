@@ -2,6 +2,7 @@ package com.sharedlist
 
 import com.sharedlist.api.ItemsManager
 import com.sharedlist.impl.ItemsManagerInMemoryImpl
+import com.sharedlist.impl.h2.H2ItemsManager
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.http.HttpCode
