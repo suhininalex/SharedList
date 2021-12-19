@@ -13,7 +13,7 @@
 
 
 <div class="container-sm p-3" style="max-width: 800px">
-    <form class="row" onsubmit="createListAndNavigate()">
+    <form class="row" onsubmit="event.preventDefault(); createListAndNavigate();">
         <div class="col">
             <label for="listName" class="visually-hidden">List name</label>
             <input class="form-control" id="listName" placeholder="List name">
