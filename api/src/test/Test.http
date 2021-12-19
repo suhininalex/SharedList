@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:80/api/lists/8750e8a5-834b-4f7f-b5d3-dd9acc7a17a8
+GET http://llama-service.online/api/lists/9c3a1c34-1c38-4b44-acff-e4fa164cb140
 Content-Type: application/json
 
 ###
