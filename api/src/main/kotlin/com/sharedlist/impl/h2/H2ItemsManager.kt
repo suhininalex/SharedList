@@ -11,18 +11,18 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object H2ItemsManager : ItemsManager {
 
     init {
-        Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver", user = "root", password = "")
+        Database.connect("jdbc:h2:file:./db/lists", driver = "org.h2.Driver", user = "root", password = "")
         transaction {
-            SchemaUtils.create(ItemListTable, ItemTable)
+            SchemaUtils.create(ListTable, ItemTable)
         }
     }
 
     override fun createList(name: String): ItemList {
         return transaction {
             val id = UIDGenerator.getID()
-            ItemListTable.insert {
-                it[ItemListTable.id] = id
-                it[ItemListTable.name] = name
+            ListTable.insert {
+                it[ListTable.id] = id
+                it[ListTable.name] = name
             }
             ItemList(id, name, emptyList())
         }
@@ -30,10 +30,10 @@ object H2ItemsManager : ItemsManager {
 
     override fun findList(listId: String): ItemList? {
         return transaction {
-            val itemList = ItemListTable.select {
-                ItemListTable.id eq listId
+            val itemList = ListTable.select {
+                ListTable.id eq listId
             }
-            val listName = itemList.singleOrNull()?.get(ItemListTable.name) ?: return@transaction null
+            val listName = itemList.singleOrNull()?.get(ListTable.name) ?: return@transaction null
             val items = ItemTable
                 .select(ItemTable.listId eq listId)
                 .map { Item(it[ItemTable.id], it[ItemTable.name]) }
@@ -43,8 +43,8 @@ object H2ItemsManager : ItemsManager {
 
     override fun removeList(listId: String) {
         transaction {
-            ItemListTable.deleteWhere {
-                ItemListTable.id eq listId
+            ListTable.deleteWhere {
+                ListTable.id eq listId
             }
         }
     }
@@ -52,6 +52,7 @@ object H2ItemsManager : ItemsManager {
     override fun addItem(listId: String, name: String): Item {
         return transaction {
             val result = ItemTable.insert {
+                it[ItemTable.id] = UIDGenerator.getID()
                 it[ItemTable.name] = name
                 it[ItemTable.listId] = listId
             }
@@ -69,7 +70,7 @@ object H2ItemsManager : ItemsManager {
     }
 }
 
-object ItemListTable : Table() {
+object ListTable : Table() {
     val id = varchar("id", 36)
     val name = varchar("name", 100)
 
@@ -78,7 +79,7 @@ object ItemListTable : Table() {
 
 object ItemTable : Table() {
     val id = varchar("id", 36)
-    val listId = reference("listId", ItemListTable.id)
+    val listId = reference("listId", ListTable.id)
     val name = varchar("name", 100)
 
     override val primaryKey = PrimaryKey(id, name = "PK_ITEM_ID")

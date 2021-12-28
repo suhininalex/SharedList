@@ -7,11 +7,14 @@ import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.http.HttpCode
 import io.javalin.http.staticfiles.Location
+import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 
 data class Name(val name: String)
 
 fun main() {
-    val itemsManager: ItemsManager = ItemsManagerInMemoryImpl()
+    val itemsManager: ItemsManager = H2ItemsManager
     Javalin.create { config ->
         config.enableCorsForAllOrigins()
         config.addStaticFiles("html/", Location.CLASSPATH)
@@ -58,7 +61,7 @@ fun main() {
             }
         }
     }
-    .start(80)
+    .start(8080)
 }
 
 
